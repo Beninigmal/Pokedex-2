@@ -4,7 +4,11 @@
 <div class="pokedex__content">
   <mat-grid-list cols="3" rowHeight="200px">
     <mat-grid-tile
-      *ngFor="let pokemon of pokemons"
+      *ngFor="
+        let pokemon of pokemons
+          | paginate
+            : { itemsPerPage: 12, currentPage: page, totalItems: totalPokemons }
+      "
       [colspan]="pokemon?.cols"
       [rowspan]="pokemon?.rows"
     >
@@ -28,3 +32,6 @@
     </mat-grid-tile>
   </mat-grid-list>
 </div>
+<pagination-controls
+  (pageChange)="page = $event; pokemons = []; getPokemons()"
+></pagination-controls>

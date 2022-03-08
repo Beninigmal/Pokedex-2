@@ -9,6 +9,8 @@ import { PokeapiService } from 'src/app/services/pokeapi.service';
 })
 export class PokedexPickComponent implements OnInit {
   pokemons: any = [];
+  page = 1;
+  totalPokemons: number = 0;
 
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<PokedexPickComponent>,
@@ -20,7 +22,12 @@ export class PokedexPickComponent implements OnInit {
     event.preventDefault();
   }
   ngOnInit() {
-    this.dataApi.getPokemons().subscribe((response: any) => {
+    this.getPokemons();
+  }
+
+  getPokemons() {
+    this.dataApi.getPokemons(9, this.page + 0).subscribe((response: any) => {
+      this.totalPokemons = response.count;
       response.results.forEach((result: any) => {
         this.dataApi
           .getPokemonData(result.name)
